@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -5,8 +6,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float interactionRange = 3f;
     [SerializeField] private LayerMask interactionMask;
     private Camera cam;
-    private IInteractable currentTarget;
-    public float interactDistance;
+    private IInteractable currentInteractable;
+    private OutlineEffect currentOutline;
+    //public float interactDistance = 3f;
 
     void Start()
     {
@@ -16,38 +18,68 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        /* if (Input.GetKeyDown(KeyCode.E))
+         {
+             CheckForInteraction();
+
+         }*/
+        
+        CheckForInteraction();
+        if (Input.GetMouseButtonDown(0) && currentInteractable!= null)
         {
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if(Physics.Raycast(ray, out hit, interactDistance))
-            {
-                
-            }
-
+            currentInteractable.Interact();
         }
-        /*if (Input.GetKeyDown(KeyCode.E))
-        {
-            CheckForInteraction();
-           
-        }*/
     }
 
-    /*void CheckForInteraction()
+    void CheckForInteraction()
     {
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
 
         RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, interactionRange, interactionMask))
+        bool didHit = Physics.Raycast(ray, out hit, interactionRange, interactionMask);
+        Debug.DrawRay(ray.origin, ray.direction * interactionRange, didHit ? Color.green : Color.red);
+        if (didHit)
         {
-            currentTarget = hit.collider.GetComponent<IInteractable>();
-            if (currentTarget != null)
+            
+            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+            OutlineEffect outline = hit.collider.GetComponent<OutlineEffect>();
+
+            if (interactable != null)
             {
-                currentTarget.Interact();
+                if (currentOutline != outline)
+                {
+                    ClearOutline();
+                    currentOutline = outline;
+
+                    if (currentOutline != null)
+                    {
+                        currentOutline.ShowOutline(true);
+                    }
+                }
+                currentInteractable = interactable;
+                //interactable.Interact();
             }
 
+            else
+            {
+                ClearOutline();
+                currentInteractable = null;
+            }
         }
-    }*/
+
+        else
+        {
+            ClearOutline();
+            currentInteractable = null;
+        }
+    }
+
+    void ClearOutline()
+    {
+        if (currentOutline != null)
+        {
+            currentOutline.ShowOutline(false);
+            currentOutline = null;
+        }
+    }
 }
