@@ -4,7 +4,11 @@ public class SwitchBoard : MonoBehaviour
 {
     public Switch[] Switches;
     public GameObject Lights;
-    
+
+    private void Start()
+    {
+        Lights.SetActive(false);
+    }
     void Update()
     {
         if (AllSwitchesCorrect())
@@ -27,6 +31,7 @@ public class SwitchBoard : MonoBehaviour
 
     private void Unlock()
     {
-        Debug.Log("Unlocked");
+        Lights.SetActive(true);
+        //Debug.Log("Unlocked");
     }
 }

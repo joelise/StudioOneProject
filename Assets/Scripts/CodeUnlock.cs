@@ -7,9 +7,13 @@ public class CodeUnlock : MonoBehaviour
     public string CorrectCode;
     private bool unlocked = false;
 
-    [Header("Code Events")]
-    public UnityEvent OnCorrectCode;
-    public UnityEvent OnIncorrectCode;
+    public GameObject CodeUi;
+    public BasicPlayerController playerController;
+
+    private void Start()
+    {
+        gameObject.SetActive(true);
+    }
 
     public void EnterCode(string playerInput)
     {
@@ -22,13 +26,18 @@ public class CodeUnlock : MonoBehaviour
         {
             unlocked = true;
             Debug.Log("Unlocked");
-            OnCorrectCode.Invoke();
+            gameObject.SetActive(false);
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            playerController.CanMove = true;
+            CodeUi.SetActive(false);
         }
 
         else
         {
             Debug.Log("Incorrect");
-            OnIncorrectCode.Invoke();
+            gameObject.SetActive(true);
+
         }
     }
 }

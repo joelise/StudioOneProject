@@ -7,12 +7,15 @@ public class OpenObject : MonoBehaviour, IInteractable
    
     void IInteractable.Interact()
     {
-        transform.Translate(NewPos);
+        //transform.Translate(NewPos);
+        gameObject.SetActive(false);
+        Debug.Log("Opened");
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         startPos = transform;
+        gameObject.SetActive(true);
        
     }
 
