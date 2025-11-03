@@ -7,17 +7,23 @@ public class Switch : MonoBehaviour, IInteractable
     public Material correctMat;
     public bool CorrectPos;
     public bool CurrentPos;
+    public Vector3 StartPos;
+    public Vector3 NewPos;
+    public GameObject rotate;
     //public bool IsCorrect;
 
     private void Start()
     {
         renderer = GetComponent<Renderer>();
         originalMat = renderer.material;
+       
+        
     }
 
     public void Toggle()
     {
         CurrentPos = !CurrentPos;
+        
 
         if (CurrentPos == CorrectPos)
         {
@@ -43,6 +49,7 @@ public class Switch : MonoBehaviour, IInteractable
     void IInteractable.Interact()
     {
         Toggle();
+       
     }
 
     void Update()
