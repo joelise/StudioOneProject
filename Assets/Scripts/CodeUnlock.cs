@@ -9,6 +9,7 @@ public class CodeUnlock : MonoBehaviour
 
     public GameObject CodeUi;
     public BasicPlayerController playerController;
+    public GameObject Door;
 
     private void Start()
     {
@@ -31,6 +32,7 @@ public class CodeUnlock : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             playerController.CanMove = true;
             CodeUi.SetActive(false);
+           
         }
 
         else

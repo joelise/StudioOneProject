@@ -2,46 +2,52 @@ using UnityEngine;
 
 public class OpenObject : MonoBehaviour, IInteractable
 {
-    public Transform StartPos;
-    public Transform EndPos;
-    public float MovementSpeed;
+    //  public Transform StartPos;
+    //  public Transform EndPos;
+    // public float MovementSpeed;
 
-    public bool IsOpen = false;
-    public bool IsMoving = false;
-   
+    //public bool IsOpen = false;
+    // public bool IsMoving = false;
+
+    public bool isShown = true;
    
     void IInteractable.Interact()
     {
-        if (IsOpen == false)
-        {
-            IsOpen = true;
-        }
-        else
-        {
-            IsOpen = false;
-        }
+        /* if (IsOpen == false)
+         {
+             IsOpen = true;
+         }
+         else
+         {
+             IsOpen = false;
+         }
 
-        IsMoving = true;
-
+         IsMoving = true;*/
+        isShown = false;
+        //GetComponent<MeshRenderer>().enabled = false;
         //transform.Translate(NewPos);
-        //gameObject.SetActive(false);
+        //door.SetActive(false);
         Debug.Log("Opened");
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-       
-        //gameObject.SetActive(true);
-       
+        gameObject.SetActive(true);
+        //GetComponent<MeshRenderer>().enabled = true;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Move();
+        if (isShown == false)
+        {
+            gameObject.SetActive(false);
+        }
+        //Move();
     }
 
-    public void Move()
+    /*public void Move()
     {
         if (IsMoving)
         {
@@ -68,7 +74,7 @@ public class OpenObject : MonoBehaviour, IInteractable
                 IsMoving = false;
             }
         }
-    }
+    }*/
 
    
 }
