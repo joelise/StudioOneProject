@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class Switch : MonoBehaviour, IInteractable
@@ -7,23 +8,53 @@ public class Switch : MonoBehaviour, IInteractable
     public Material correctMat;
     public bool CorrectPos;
     public bool CurrentPos;
-    public Vector3 StartPos;
-    public Vector3 NewPos;
-    public GameObject rotate;
-    //public bool IsCorrect;
+    public Transform StartPos;
+    public Transform EndPos;
+    public float MovementSpeed;
 
+    public bool IsOpen = false;
+    public bool IsMoving = false;
+
+    private void Awake()
+    {
+        Transform originalPos;
+
+        if (CurrentPos)
+        {
+            originalPos = EndPos;
+            IsOpen = true;
+        }
+        else
+        {
+            originalPos = StartPos;
+            IsOpen = false;
+        }
+
+        transform.localPosition = originalPos.localPosition;
+        transform.localRotation = originalPos.localRotation;
+    }
     private void Start()
     {
         renderer = GetComponent<Renderer>();
         originalMat = renderer.material;
-       
+
         
     }
 
     public void Toggle()
     {
+       
+
+        if (IsOpen == false)
+        {
+            IsOpen = true;
+        }
+        else
+        {
+            IsOpen = false;
+        }
+
         CurrentPos = !CurrentPos;
-        
 
         if (CurrentPos == CorrectPos)
         {
@@ -48,12 +79,15 @@ public class Switch : MonoBehaviour, IInteractable
 
     void IInteractable.Interact()
     {
+        IsMoving = true;
         Toggle();
        
     }
 
     void Update()
     {
+        Move();
+
         if (IsCorrect())
         {
             renderer.material = correctMat;
@@ -64,6 +98,35 @@ public class Switch : MonoBehaviour, IInteractable
         }
     }
 
-    
-    
+    public void Move()
+    {
+        if (IsMoving)
+        {
+            Transform targetPos;
+
+            if (IsOpen)
+            {
+                targetPos = EndPos;
+            }
+            else
+            {
+                targetPos = StartPos;
+            }
+
+            transform.localPosition = Vector3.Lerp(transform.localPosition, targetPos.localPosition, Time.deltaTime * MovementSpeed);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetPos.localRotation, Time.deltaTime * MovementSpeed);
+
+            float distance = Vector3.Distance(transform.localPosition, targetPos.localPosition);
+
+            if (distance < 0.01f)
+            {
+                transform.localPosition = targetPos.localPosition;
+                transform.localRotation = targetPos.localRotation;
+                IsMoving = false;
+            }
+        }
+    }
+
+
+
 }
