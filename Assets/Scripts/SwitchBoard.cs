@@ -3,11 +3,11 @@ using UnityEngine;
 public class SwitchBoard : MonoBehaviour
 {
     public Switch[] Switches;
-    public GameObject Lights;
+    public Light[] Lights;
 
     private void Start()
     {
-        Lights.SetActive(false);
+        //Lights.SetActive(false);
     }
     void Update()
     {
@@ -31,7 +31,11 @@ public class SwitchBoard : MonoBehaviour
 
     private void Unlock()
     {
-        Lights.SetActive(true);
+        foreach (Light l in Lights)
+        {
+            l.intensity = 3000f;
+        }
+        
         //Debug.Log("Unlocked");
     }
 }
