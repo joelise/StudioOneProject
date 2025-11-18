@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class OpenObject : MonoBehaviour, IInteractable
 {
-    //  public Transform StartPos;
-    //  public Transform EndPos;
-    // public float MovementSpeed;
+      public Transform StartPos;
+      public Transform EndPos;
+     public float MovementSpeed;
 
-    //public bool IsOpen = false;
-    // public bool IsMoving = false;
+    public bool IsOpen = false;
+     public bool IsMoving = false;
 
     public bool isShown = true;
    
     void IInteractable.Interact()
     {
-        /* if (IsOpen == false)
+         if (IsOpen == false)
          {
              IsOpen = true;
          }
@@ -22,7 +22,7 @@ public class OpenObject : MonoBehaviour, IInteractable
              IsOpen = false;
          }
 
-         IsMoving = true;*/
+         IsMoving = true;
         isShown = false;
         //GetComponent<MeshRenderer>().enabled = false;
         //transform.Translate(NewPos);
@@ -44,10 +44,10 @@ public class OpenObject : MonoBehaviour, IInteractable
         {
             gameObject.SetActive(false);
         }
-        //Move();
+        Move();
     }
 
-    /*public void Move()
+    public void Move()
     {
         if (IsMoving)
         {
@@ -74,7 +74,7 @@ public class OpenObject : MonoBehaviour, IInteractable
                 IsMoving = false;
             }
         }
-    }*/
+    }
 
    
 }
